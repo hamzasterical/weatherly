@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body onload="Faisalabad()">
+    <div class="container">
+        <div class="main-card">
+            <div class="search-bar">
+                <input type="text" placeholder="Enter City" id="cityInput">
+                <button id="searchBtn" spellcheck="false" onclick="checkweather()">
+                    <img id="hit-search" src="images/Untitled design (14).png" alt="Search">
+                </button>
+            </div>
+
+            <div class="weather">
+                <img src="images/weather.png" class="weather-icon" alt="Weather Icon">
+                <h1 id="temp">Loading</h1>
+                <h2 id="city">Faisalabad</h2>
+                <div class="details">
+
+                    <div>
+                        <div class="col">
+                        
+                            <div>
+                                <p id="humidity" class = "data">Loading</p>
+                                <p>Humidity</p>
+                            </div>
+                    </div>
+                        <div class="col">
+                            
+                                <div>
+                                    <p id="wind" class = "data">Loading</p>
+                                    <p>Wind Speed</p>
+                                </div>
+                        </div>
+                    </div>
+                    
+
+                    <div>
+                        <div class="col">
+
+                        <div>
+                            <p id="pressure" class = "data">Loading</p>
+                            <p>Pressure</p>
+                        </div>
+                    </div>
+
+                    <div class="col" class = "data">
+
+                        <div>
+                            <p id="degree" class = "data">Loading</p>
+                            <p>Wind Degree</p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    
+    const apiKey = "15e7dfe416cf605a7763b9c859be1103";
+    
+    async function Faisalabad () {
+        const city = "Faisalabad";
+        
+        const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+        const response = await fetch(apiURL);
+        const data = await response.json();
+        
+        let temp = data.main.temp + "°C";
+        let humidity = data.main.humidity + "%";
+        let windspeed = data.wind.speed;
+        let name = data.name;
+        let pressure = data.main.pressure + "hPa";
+        let degree = data.wind.deg + "°";
+        document.querySelector("#humidity").textContent = humidity;
+        document.querySelector("#temp").textContent = temp;
+        document.querySelector("#wind").textContent = windspeed;
+        document.querySelector("#city").textContent = name;
+        document.querySelector('#pressure').textContent = pressure;
+        document.querySelector("#degree").textContent = degree;
+    }
+    async function checkweather() {
+        const city = document.getElementById("cityInput").value;
+        if(!city)
+        {
+            alert("Please Enter a city Name");
+            
+        }
+        const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+        const response = await fetch(apiURL);
+        const data = await response.json();
+        
+        
+
+        if(data.cod === "404")
+        {
+            alert("City not found. Please enter a valid city name");
+            return;
+        }
+            console.log(data);
+        let temp = data.main.temp + "°C";
+        let humidity = data.main.humidity + "%";
+        let windspeed = data.wind.speed + "km/h";
+        let name = data.name;
+        let pressure = data.main.pressure + "hPa";
+        let degree = data.wind.deg + "°";
+        document.querySelector("#humidity").textContent = humidity;
+        document.querySelector("#temp").textContent = temp;
+        document.querySelector("#wind").textContent = windspeed;
+        document.querySelector("#city").textContent = name;
+        document.querySelector('#pressure').textContent = pressure;
+        document.querySelector("#degree").textContent = degree;
+        
+    }
+
+    
+</script>
+
+</body>
+</html>
